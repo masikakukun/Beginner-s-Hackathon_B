@@ -40,19 +40,20 @@ int main() {
             }
         }
         if(NinM == 0){//自分が洗濯中でない
-         for(int i = 1; i < Washer_num+1; ++i){
-            if(User_ID[i] == 0){
-                cout << "空き" << endl;
-            }else{
-                cout << Start_time[i] + remain_time[i] - d2 << endl;
+            for(int i = 1; i < Washer_num+1; ++i){
+                if(User_ID[i] == 0){
+                    cout << "空き" << endl;
+                }else{
+                    long long t = (Start_time[i] + remain_time[i] - d2).count();
+                    cout << t << endl;
+                }
             }
-         }
         }else{//自分が洗濯中
             if (Start_time[NinM] + remain_time[NinM]  < d2){  //d1:洗濯開始時刻　d2:現在の時刻
                 cout << "洗濯完了" << endl;
             }
             else {
-                time_t t = std::chrono::system_clock::to_time_t(Start_time[NinM] + remain_time[NinM] - d2);
+                long long t = (Start_time[NinM] + remain_time[NinM] - d2).count();
                 cout << t << endl;
             }
         }
