@@ -2,25 +2,34 @@ document.title="バックエンド(共有端末)"
 
 //洗濯機の数
 const washer_num=6
+//時刻
+var global_time=0;
+const time_interval=60;//1分毎に時刻が1増える
 
 //洗濯機の空き状況
 var washer_status=new Array(washer_num);
 
 //空き状況を設定する
 //0なら空き、それ以外なら残り時間
-washer_status.fill("0");
-washer_status[1]="10";
+washer_status.fill(0);
 
 onRefresh();
 
+//1分毎に時刻を更新
+setInterval(time_tick,time_interval*1000);
+
 //更新処理
 function onRefresh(){
+	//時刻を表示
+	var time_content=document.getElementById("global_time")
+	time_content.innerHTML="時刻:"+global_time;
+	//洗濯機の空き状況を表示
 	for (let i=0;i<washer_num;i++){
 		var id="l"+(i+1);
 		var button=document.getElementById(id);
 		var status_span=document.getElementById(id+"_status");
 		//洗濯機が空いている場合
-		if (washer_status[i]=="0"){
+		if (washer_status[i]==0){
 			//ボタンを有効化
 			button.disabled=false;
 			//ボタンの背景を緑に
@@ -33,7 +42,7 @@ function onRefresh(){
 			//ボタンの背景を赤に
 			button.style.backgroundColor="lightcoral";
 			//ボタンの右に残り時間を表示
-			status_span.innerHTML="残り"+washer_status[i]+"分";
+			status_span.innerHTML="使用中:残り"+washer_status[i]+"分";
 		}
 	}
 }
@@ -61,5 +70,16 @@ function LaundryButton(){
 	}
 	//正しく入力されたとき 空き状況を更新
 	washer_status[parseInt(id[1])-1]=time;
+	onRefresh();
+}
+
+//1分経過
+function time_tick(){
+	global_time++;
+	for (let i=0;i<washer_num;i++){
+		if (washer_status[i]!=0){
+			washer_status[i]--;
+		}
+	}
 	onRefresh();
 }
