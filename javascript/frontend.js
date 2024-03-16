@@ -2,9 +2,13 @@ document.title="フロントエンド"
 
 //洗濯機の数
 const washer_num=6
+
 //洗濯機の空き状況
 var washer_status=new Array(washer_num);
+
+//空き状況を取得したい
 washer_status.fill("0");
+
 console.log(washer_status);
 
 //それぞれの洗濯機の空き状況
