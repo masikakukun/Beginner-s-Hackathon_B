@@ -23,50 +23,63 @@ int main() {
     vector<int> User_ID(Washer_num+1);//洗濯機を使っている人のユーザー番号
     vector<chrono::minutes> remain_time(Washer_num+1);//洗濯機の残り時間(洗濯時間)
     vector<chrono::system_clock::time_point> Start_time(Washer_num+1);
-    char AorB;
+    char query_type;
     while(true){
-        cin >> AorB;
-        if(AorB == 'A'){
+        cout << "クエリタイプを入力してください" << endl;
+        cout << "\tA: 洗濯開始クエリ" << endl;
+        cout << "\tB: 空き状況確認クエリ" << endl;
+        cout << "\tC: 洗濯状況確認&回収クエリ" << endl;
+        cout << "\tそれ以外: プログラム終了" << endl;
+        cin >> query_type;
+        if(query_type == 'A'){
+            cout << "ユーザー番号、洗濯機番号、洗濯時間(分)を空白区切りで入力してください" << endl;
             cin >> N >> M >> T;
+            if(User_ID[M] != 0){
+                cout << "洗濯機" << M << "は使用中です" << endl;
+                continue;
+            }
             User_ID[M] = N;
             remain_time[M] = (chrono::minutes)T;
             Start_time[M] = std::chrono::system_clock::now();
-        }else if(AorB == 'B'){
+        }else if(query_type == 'B'){
             chrono::system_clock::time_point d2 = std::chrono::system_clock::now();
-            cin >> N;
-            int NinM = 0;
-            for(int i=1;i<=Washer_num;i++){
-                if(User_ID[i] == N){
-                    NinM = i;
-                    break;
-                }
-            }
-            if(NinM == 0){//自分が洗濯中でない
-                for(int i = 1; i < Washer_num+1; ++i){
-                    if(User_ID[i] == 0){
-                        cout << "洗濯機" << i << ":空き" << endl;
-                    }else{
-                        if(d2 < Start_time[i] + remain_time[i]){
-                            auto t = (Start_time[i] + remain_time[i] - d2);
-                            auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
-                            if(t_minutes > 0){
-                                cout << "洗濯機" << i << ":(使用中 残り" << t_minutes << "分)" << endl;
-                            }else{
-                                cout << "洗濯機" << i << ":(使用中 残り1分未満)" << endl;
-                            }
+            for(int i = 1; i < Washer_num+1; ++i){
+                if(User_ID[i] == 0){
+                    cout << "洗濯機" << i << ":空き" << endl;
+                }else{
+                    if(d2 < Start_time[i] + remain_time[i]){
+                        auto t = Start_time[i] + remain_time[i] - d2;
+                        auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
+                        if(t_minutes > 0){
+                            cout << "洗濯機" << i << ":(使用中 残り" << t_minutes << "分)" << endl;
                         }else{
-                            cout << "洗濯機" << i << ":(洗濯後未回収)" << endl;
+                            cout << "洗濯機" << i << ":(使用中 残り1分未満)" << endl;
                         }
+                    }else{
+                        cout << "洗濯機" << i << ":(洗濯後未回収)" << endl;
                     }
                 }
-            }else{//自分が洗濯中
-                if(Start_time[NinM] + remain_time[NinM] < d2){ //d1:洗濯開始時刻　d2:現在の時刻
-                    cout << "洗濯完了" << endl;
+            }
+        }else if(query_type == 'C'){
+            cout << "ユーザー番号と洗濯機番号を空白区切りで入力してください" << endl;
+            int N, M;
+            cin >> N >> M;
+            if(User_ID[M] == N){
+                auto now = std::chrono::system_clock::now();
+                if(now < Start_time[M] + remain_time[M]){
+                    auto rest = Start_time[M] + remain_time[M] - now;
+                    auto rest_min = std::chrono::duration_cast<std::chrono::minutes>(rest).count();
+                    if(rest_min > 0){
+                        cout << "残り" << rest_min << "分" << endl;
+                    }else{
+                        cout << "残り1分未満" << endl;
+                    }
                 }else{
-                    auto t = (Start_time[NinM] + remain_time[NinM] - d2);
-                    auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
-                    cout << t_minutes<<" (minutes)" << endl;
+                    User_ID[M] = 0;
+                    cout << "洗濯は完了しています。洗濯物を回収しました" << endl;
                 }
+            }else{
+                cout << "ユーザー" << N << "は洗濯機" << M << "を使用していません" << endl;
             }
         }else{
             return 0;
