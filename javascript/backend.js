@@ -98,30 +98,44 @@ function openDialog() {
 	//デフォルト値にリセット
 	document.getElementById("input1").value="太郎";
 	document.getElementById("input2").value=10;
-    document.getElementById("custom-dialog").style.display = "block";
+	document.getElementById("custom-dialog").style.display = "block";
+	document.addEventListener('keydown', handleKeyDown);
 }
 
 // 2入力ダイアログを閉じる
 function closeDialog() {
-        var input1 = document.getElementById("input1").value;
-        var input2 = document.getElementById("input2").value;
-        console.log('Input 1:', input1);
-        console.log('Input 2:', input2);
-        document.getElementById("custom-dialog").style.display = "none";
-		input2=parseInt(input2);
-		Laundry_use(input1,input2);
-    }
+	var input1 = document.getElementById("input1").value;
+	var input2 = document.getElementById("input2").value;
+	console.log('Input 1:', input1);
+	console.log('Input 2:', input2);
+	document.getElementById("custom-dialog").style.display = "none";
+	input2=parseInt(input2);
+	document.removeEventListener('keydown', handleKeyDown);
+	Laundry_use(input1,input2);
+}
+function cancelDialog(){
+	document.getElementById("custom-dialog").style.display = "none";
+}
+
+//キー入力を処理する関数
+function handleKeyDown(event) {
+	if (event.key === 'Escape') { // ESCキーが押された場合
+		cancelDialog();
+	} else if (event.key === 'Enter') { // エンターキーが押された場合
+		closeDialog();
+	}
+}
 
 // メッセージを送信する
 function sendMessage(msg) {
-    const message = "msg";
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:3000", true);
-    xhr.setRequestHeader("Content-Type", "text/plain");
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            document.getElementById("response").innerText = xhr.responseText;
-        }
-    };
-    xhr.send(message);
+	const message = "msg";
+	const xhr = new XMLHttpRequest();
+	xhr.open("POST", "http://localhost:3000", true);
+	xhr.setRequestHeader("Content-Type", "text/plain");
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+			document.getElementById("response").innerText = xhr.responseText;
+		}
+	};
+	xhr.send(message);
 }
