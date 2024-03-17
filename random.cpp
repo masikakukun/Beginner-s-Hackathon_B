@@ -11,7 +11,7 @@ int main(){
     writing_file.open(filename, std::ios::out);
     srand((unsigned int)time(NULL));
     for (int i=1;i<=100;i++){
-        int q = rand()%3+1;
+        int q = rand()%4+1;
         char query;
         if (q==1){
             query = 'A';
