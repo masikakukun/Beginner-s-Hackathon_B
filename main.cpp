@@ -52,8 +52,9 @@ int main() {
                 cout << "空き" << endl;
             }else{
 
-                long long t = (Start_time[i] + remain_time[i] - d2).count();
-                cout << t << endl;
+                auto t = (Start_time[i] + remain_time[i] - d2);
+                auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
+                cout << t_minutes<<" (minutes)" << endl;
             }
          }
 
@@ -64,8 +65,9 @@ int main() {
             }
             else {
 
-                long long t = (Start_time[NinM] + remain_time[NinM] - d2).count();
-                cout << t << endl;
+                auto t = (Start_time[NinM] + remain_time[NinM] - d2);
+                auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
+                cout << t_minutes<<" (minutes)" << endl;
             }        
         }
     }
