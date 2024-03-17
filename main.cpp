@@ -76,13 +76,13 @@ int main() {
                     auto rest = Start_time[M] + remain_time[M] - now;
                     auto rest_min = std::chrono::duration_cast<std::chrono::minutes>(rest).count();
                     if(rest_min > 0){
-                        cout << "残り" << rest_min << "分" << endl;
+                        cout << "ユーザー" << N << "の洗濯機" << M << "は" << "残り" << rest_min << "分" << endl;
                     }else{
-                        cout << "残り1分未満" << endl;
+                        cout << "ユーザー" << N << "の洗濯機" << M << "は残り1分未満" << endl;
                     }
                 }else{
                     User_ID[M] = 0;
-                    cout << "洗濯は完了しています。洗濯物を回収しました" << endl;
+                    cout << "ユーザー" << N << "の洗濯機" << M << "は洗濯完了しています。洗濯物を回収しました" << endl;
                 }
             }else{
                 cout << "ユーザー" << N << "は洗濯機" << M << "を使用していません" << endl;
