@@ -44,15 +44,23 @@ int main() {
             if(NinM == 0){//自分が洗濯中でない
                 for(int i = 1; i < Washer_num+1; ++i){
                     if(User_ID[i] == 0){
-                        cout << "空き" << endl;
+                        cout << "洗濯機" << i << ":空き" << endl;
                     }else{
-                        auto t = (Start_time[i] + remain_time[i] - d2);
-                        auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
-                        cout << t_minutes<<" (minutes)" << endl;
+                        if(d2 < Start_time[i] + remain_time[i]){
+                            auto t = (Start_time[i] + remain_time[i] - d2);
+                            auto t_minutes = std::chrono::duration_cast<std::chrono::minutes>(t).count();
+                            if(t_minutes > 0){
+                                cout << "洗濯機" << i << ":(使用中 残り" << t_minutes << "分)" << endl;
+                            }else{
+                                cout << "洗濯機" << i << ":(使用中 残り1分未満)" << endl;
+                            }
+                        }else{
+                            cout << "洗濯機" << i << ":(洗濯後未回収)" << endl;
+                        }
                     }
                 }
             }else{//自分が洗濯中
-                if(Start_time[NinM] + remain_time[NinM]  < d2){  //d1:洗濯開始時刻　d2:現在の時刻
+                if(Start_time[NinM] + remain_time[NinM] < d2){ //d1:洗濯開始時刻　d2:現在の時刻
                     cout << "洗濯完了" << endl;
                 }else{
                     auto t = (Start_time[NinM] + remain_time[NinM] - d2);
