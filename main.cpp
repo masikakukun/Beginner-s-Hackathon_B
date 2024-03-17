@@ -26,15 +26,15 @@ int main() {
     chrono::minutes time_ahead = chrono::minutes{0};
     char query_type;
     while(true){
-        cout << "クエリタイプを入力してください" << endl;
-        cout << "\tA: 洗濯開始クエリ" << endl;
-        cout << "\tB: 空き状況確認クエリ" << endl;
-        cout << "\tC: 洗濯状況確認&回収クエリ" << endl;
-        cout << "\tD: 時間進行クエリ" << endl;
-        cout << "\tそれ以外: プログラム終了" << endl;
+        cerr << "クエリタイプを入力してください" << endl;
+        cerr << "\tA: 洗濯開始クエリ" << endl;
+        cerr << "\tB: 空き状況確認クエリ" << endl;
+        cerr << "\tC: 洗濯状況確認&回収クエリ" << endl;
+        cerr << "\tD: 時間進行クエリ" << endl;
+        cerr << "\tそれ以外: プログラム終了" << endl;
         cin >> query_type;
         if(query_type == 'A'){
-            cout << "ユーザー番号、洗濯機番号、洗濯時間(分)を空白区切りで入力してください" << endl;
+            cerr << "ユーザー番号、洗濯機番号、洗濯時間(分)を空白区切りで入力してください" << endl;
             int N, M, T;
             cin >> N >> M >> T;
             assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num && 1 <= T && T <= 1000);
@@ -45,6 +45,7 @@ int main() {
             User_ID[M] = N;
             remain_time[M] = chrono::minutes{T};
             Start_time[M] = std::chrono::system_clock::now() + time_ahead;
+            cout << "ユーザー" << N << "が洗濯機" << M << "を" << T << "分間使い始めました。" << endl;
         }else if(query_type == 'B'){
             chrono::system_clock::time_point d2 = std::chrono::system_clock::now() + time_ahead;
             for(int i = 1; i < Washer_num+1; ++i){
@@ -65,7 +66,7 @@ int main() {
                 }
             }
         }else if(query_type == 'C'){
-            cout << "ユーザー番号と洗濯機番号を空白区切りで入力してください" << endl;
+            cerr << "ユーザー番号と洗濯機番号を空白区切りで入力してください" << endl;
             int N, M;
             cin >> N >> M;
             assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num);
@@ -87,11 +88,12 @@ int main() {
                 cout << "ユーザー" << N << "は洗濯機" << M << "を使用していません" << endl;
             }
         }else if(query_type == 'D'){
-            cout << "進めたい時間(分)を入力してください" << endl;
+            cerr << "進めたい時間(分)を入力してください" << endl;
             int t;
             cin >> t;
             assert(t >= 0);
             time_ahead += chrono::minutes{t};
+            cout << "時間を" << t << "分進めました。" << endl;
         }else{
             return 0;
         }
