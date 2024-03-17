@@ -32,6 +32,13 @@ int main(){
             int M = rand()%10+1;
             writing_file << N << M << endl;
         }
+        if (q==4){
+            query = 'D';
+            int T = rand()%100+1;
+            writing_file << query << endl;
+            writing_file << T << endl;
+
+        }
         int t = rand()%10+1;
         sleep(t);
     }
