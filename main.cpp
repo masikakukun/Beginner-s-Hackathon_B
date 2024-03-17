@@ -40,12 +40,12 @@ int main() {
             assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num && 1 <= T && T <= 1000);
             if(User_ID[M] != 0){
                 cout << "洗濯機" << M << "は使用中です" << endl;
-                continue;
+            }else{
+                User_ID[M] = N;
+                remain_time[M] = chrono::minutes{T};
+                Start_time[M] = std::chrono::system_clock::now() + time_ahead;
+                cout << "ユーザー" << N << "が洗濯機" << M << "を" << T << "分間使い始めました。" << endl;
             }
-            User_ID[M] = N;
-            remain_time[M] = chrono::minutes{T};
-            Start_time[M] = std::chrono::system_clock::now() + time_ahead;
-            cout << "ユーザー" << N << "が洗濯機" << M << "を" << T << "分間使い始めました。" << endl;
         }else if(query_type == 'B'){
             chrono::system_clock::time_point d2 = std::chrono::system_clock::now() + time_ahead;
             for(int i = 1; i < Washer_num+1; ++i){
