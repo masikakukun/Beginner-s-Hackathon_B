@@ -30,7 +30,7 @@ int main(){
             writing_file << query << endl;
             int N = rand()%100+1;
             int M = rand()%10+1;
-            writing_file << N << M << endl;
+            writing_file << N << " " << M << endl;
         }
         if (q==4){
             query = 'D';
@@ -40,7 +40,7 @@ int main(){
 
         }
         int t = rand()%10+1;
-        sleep(t);
+        //sleep(t);
     }
     return 0;
 }
