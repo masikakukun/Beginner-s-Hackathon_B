@@ -34,6 +34,7 @@ int main() {
         if(query_type == 'A'){
             cout << "ユーザー番号、洗濯機番号、洗濯時間(分)を空白区切りで入力してください" << endl;
             cin >> N >> M >> T;
+            assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num && 1 <= T && T <= 1000);
             if(User_ID[M] != 0){
                 cout << "洗濯機" << M << "は使用中です" << endl;
                 continue;
@@ -64,6 +65,7 @@ int main() {
             cout << "ユーザー番号と洗濯機番号を空白区切りで入力してください" << endl;
             int N, M;
             cin >> N >> M;
+            assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num);
             if(User_ID[M] == N){
                 auto now = std::chrono::system_clock::now();
                 if(now < Start_time[M] + remain_time[M]){
