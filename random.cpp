@@ -24,7 +24,7 @@ int main(){
             query = 'B';
             writing_file << query << endl;        
         }
-        int t = rand()%3600+1;
+        int t = rand()%10+1;
         sleep(t);
     }
     return 0;
