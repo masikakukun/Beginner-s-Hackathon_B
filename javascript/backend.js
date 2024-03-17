@@ -8,6 +8,7 @@ const time_interval=60;//1分毎に時刻が1増える
 
 //洗濯機の空き状況
 var washer_status=new Array(washer_num);//これをフロントエンドに送信したい
+var washer_user=new Array(washer_num);
 //空き状況を設定する
 //0なら空き、それ以外なら残り時間
 washer_status.fill(0);
@@ -42,18 +43,21 @@ function onRefresh(){
 			//ボタンの背景を赤に
 			button.style.backgroundColor="lightcoral";
 			//ボタンの右に残り時間を表示
-			status_span.innerHTML="使用中:残り"+washer_status[i]+"分";
+			status_span.innerHTML=washer_user[i]+"さんが使用中:残り"+washer_status[i]+"分";
 		}
 	}
 }
 
+let pushd_id;
 //洗濯機ボタンを押したときの処理
 function LaundryButton(){
 	//ボタンのIDを取得
 	//TODO: eventは非推奨
-	var id=event.target.id;
-	//何分洗濯するかを入力させる
-	var time=prompt("何分洗濯しますか？");
+	pushd_id=event.target.id;
+	//何分洗濯するかとユーザー名を入力させる
+	openDialog();
+}
+function Laundry_use(user,time){
 	//入力がキャンセルされた場合
 	if (time==null){
 		return;
@@ -69,7 +73,8 @@ function LaundryButton(){
 		return;
 	}
 	//正しく入力されたとき 空き状況を更新
-	washer_status[parseInt(id[1])-1]=time;
+	washer_status[parseInt(pushd_id[1])-1]=time;
+	washer_user[parseInt(pushd_id[1])-1]=user;
 	onRefresh();
 }
 
@@ -88,6 +93,26 @@ function time_tick(){
 	onRefresh();
 }
 
+// 2入力ダイアログを開く
+function openDialog() {
+	//デフォルト値にリセット
+	document.getElementById("input1").value="太郎";
+	document.getElementById("input2").value=10;
+    document.getElementById("custom-dialog").style.display = "block";
+}
+
+// 2入力ダイアログを閉じる
+function closeDialog() {
+        var input1 = document.getElementById("input1").value;
+        var input2 = document.getElementById("input2").value;
+        console.log('Input 1:', input1);
+        console.log('Input 2:', input2);
+        document.getElementById("custom-dialog").style.display = "none";
+		input2=parseInt(input2);
+		Laundry_use(input1,input2);
+    }
+
+// メッセージを送信する
 function sendMessage(msg) {
     const message = "msg";
     const xhr = new XMLHttpRequest();

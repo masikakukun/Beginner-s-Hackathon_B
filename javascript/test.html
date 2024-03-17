@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modal Dialog</title>
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .modal-input {
+        margin-bottom: 10px;
+    }
+
+    .modal-button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <input type="text" id="input1" class="modal-input" placeholder="Input 1">
+        <input type="text" id="input2" class="modal-input" placeholder="Input 2">
+        <button onclick="submitInputs()" class="modal-button">Submit</button>
+    </div>
+</div>
+
+<script>
+    var modal = document.getElementById('myModal');
+
+    function openModal() {
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    function submitInputs() {
+        var input1 = document.getElementById('input1').value;
+        var input2 = document.getElementById('input2').value;
+        console.log('Input 1:', input1);
+        console.log('Input 2:', input2);
+        closeModal();
+    }
+
+    // ページが読み込まれた時にモーダルを表示する
+    window.onload = openModal;
+</script>
+
+</body>
+</html>

@@ -44,7 +44,53 @@
 </div>
 <br>
 
-<p id="sdata"></p>
+<!--2入力ダイアログの表示-->
+<style>
+        /* ダイアログのスタイル */
+        .dialog-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #000000;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
+        .input-field {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+        .button-container {
+            text-align: center;
+        }
+        .button {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+
+<div id="custom-dialog" class="dialog-container" style="display: none;">
+    <div class="input-container">
+        <label class="input-label" for="input1">使用する人の名前:</label>
+        <input id="input1" class="input-field" type="text">
+    </div>
+    <div class="input-container">
+        <label class="input-label" for="input2">使用時間:</label>
+        <input id="input2" class="input-field" type="text">
+    </div>
+    <div class="button-container">
+        <button onclick="closeDialog()" class="button">OK</button>
+    </div>
+</div>
 
 <script src="./backend.js">
 </script>
