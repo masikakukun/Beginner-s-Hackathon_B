@@ -8,8 +8,11 @@ var washer_status=new Array(washer_num);
 
 //空き状況を取得したい
 washer_status.fill("0");
-
+washer_status[0]="10";
 console.log(washer_status);
+
+//const socket = new WebSocket('ws://サーバーのアドレス');
+
 
 //それぞれの洗濯機の空き状況
 for(let i=0;i<washer_num;i++){
