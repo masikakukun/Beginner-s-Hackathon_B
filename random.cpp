@@ -40,6 +40,11 @@ int main(){
             int M = stock[p].second;
             stock.erase(stock.begin()+p);
             writing_file << N << " " << M << endl;
+            }
+            else {
+                int N = rand()%100+1;
+                int M = rand()%10+1;
+                writing_file << N << " " << M << endl;
             }  
         }
         
