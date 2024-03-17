@@ -18,7 +18,7 @@ int main(){
         if (q==2){
             query = 'B';
             int N = rand()%100+1;
-            cout << query << " " << N << endl;
+            cout << query << endl;
         }
         int t = rand()%3600+1;
         sleep(t);
