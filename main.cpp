@@ -18,31 +18,35 @@ using PPP = pair<long long, long long>;
 
 int User_num = 100;
 int Washer_num = 10;
+
 int main() {
-    int N, M, T;
     vector<int> User_ID(Washer_num+1);//洗濯機を使っている人のユーザー番号
     vector<chrono::minutes> remain_time(Washer_num+1);//洗濯機の残り時間(洗濯時間)
     vector<chrono::system_clock::time_point> Start_time(Washer_num+1);
+    chrono::minutes time_ahead = chrono::minutes{0};
     char query_type;
     while(true){
         cout << "クエリタイプを入力してください" << endl;
         cout << "\tA: 洗濯開始クエリ" << endl;
         cout << "\tB: 空き状況確認クエリ" << endl;
         cout << "\tC: 洗濯状況確認&回収クエリ" << endl;
+        cout << "\tD: 時間進行クエリ" << endl;
         cout << "\tそれ以外: プログラム終了" << endl;
         cin >> query_type;
         if(query_type == 'A'){
             cout << "ユーザー番号、洗濯機番号、洗濯時間(分)を空白区切りで入力してください" << endl;
+            int N, M, T;
             cin >> N >> M >> T;
+            assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num && 1 <= T && T <= 1000);
             if(User_ID[M] != 0){
                 cout << "洗濯機" << M << "は使用中です" << endl;
                 continue;
             }
             User_ID[M] = N;
-            remain_time[M] = (chrono::minutes)T;
-            Start_time[M] = std::chrono::system_clock::now();
+            remain_time[M] = chrono::minutes{T};
+            Start_time[M] = std::chrono::system_clock::now() + time_ahead;
         }else if(query_type == 'B'){
-            chrono::system_clock::time_point d2 = std::chrono::system_clock::now();
+            chrono::system_clock::time_point d2 = std::chrono::system_clock::now() + time_ahead;
             for(int i = 1; i < Washer_num+1; ++i){
                 if(User_ID[i] == 0){
                     cout << "洗濯機" << i << ":空き" << endl;
@@ -64,8 +68,9 @@ int main() {
             cout << "ユーザー番号と洗濯機番号を空白区切りで入力してください" << endl;
             int N, M;
             cin >> N >> M;
+            assert(1 <= N && N <= User_num && 1 <= M && M <= Washer_num);
             if(User_ID[M] == N){
-                auto now = std::chrono::system_clock::now();
+                auto now = std::chrono::system_clock::now() + time_ahead;
                 if(now < Start_time[M] + remain_time[M]){
                     auto rest = Start_time[M] + remain_time[M] - now;
                     auto rest_min = std::chrono::duration_cast<std::chrono::minutes>(rest).count();
@@ -81,8 +86,15 @@ int main() {
             }else{
                 cout << "ユーザー" << N << "は洗濯機" << M << "を使用していません" << endl;
             }
+        }else if(query_type == 'D'){
+            cout << "進めたい時間(分)を入力してください" << endl;
+            int t;
+            cin >> t;
+            assert(t >= 0);
+            time_ahead += chrono::minutes{t};
         }else{
             return 0;
         }
+        cout << endl;
     }
 }
