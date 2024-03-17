@@ -3,12 +3,11 @@ document.title="バックエンド(共有端末)"
 //洗濯機の数
 const washer_num=6
 //時刻
-var global_time=0;
+var global_time=0;//これをフロントエンドに送信したい
 const time_interval=60;//1分毎に時刻が1増える
 
 //洗濯機の空き状況
-var washer_status=new Array(washer_num);
-
+var washer_status=new Array(washer_num);//これをフロントエンドに送信したい
 //空き状況を設定する
 //0なら空き、それ以外なら残り時間
 washer_status.fill(0);
@@ -24,6 +23,7 @@ function onRefresh(){
 	var time_content=document.getElementById("global_time")
 	time_content.innerHTML="時刻:"+global_time;
 	//洗濯機の空き状況を表示
+	let unused_count=0;
 	for (let i=0;i<washer_num;i++){
 		var id="l"+(i+1);
 		var button=document.getElementById(id);
@@ -73,13 +73,30 @@ function LaundryButton(){
 	onRefresh();
 }
 
-//1分経過
+//時刻を1進める
 function time_tick(){
 	global_time++;
 	for (let i=0;i<washer_num;i++){
 		if (washer_status[i]!=0){
 			washer_status[i]--;
+			if (washer_status[i]==0){
+				sendMessage("洗濯機"+(i+1)+"が空きました");
+			}
 		}
 	}
+	//新しいデータを書き込む
 	onRefresh();
+}
+
+function sendMessage(msg) {
+    const message = "msg";
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://localhost:3000", true);
+    xhr.setRequestHeader("Content-Type", "text/plain");
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            document.getElementById("response").innerText = xhr.responseText;
+        }
+    };
+    xhr.send(message);
 }

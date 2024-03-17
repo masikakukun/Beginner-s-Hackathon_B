@@ -1,3 +1,4 @@
+
 document.title="フロントエンド"
 
 //洗濯機の数
@@ -10,9 +11,6 @@ var washer_status=new Array(washer_num);
 washer_status.fill("0");
 washer_status[0]="10";
 console.log(washer_status);
-
-//const socket = new WebSocket('ws://サーバーのアドレス');
-
 
 //それぞれの洗濯機の空き状況
 for(let i=0;i<washer_num;i++){
